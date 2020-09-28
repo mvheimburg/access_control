@@ -4,5 +4,5 @@
 # Runs Access Control
 # ==============================================================================
 bashio::log.info "Starting Access Control server."
-cd /opt || bashio::exit "Could not change dir."
+cd /opt/web || bashio::exit "Could not change dir."
 exec npm start

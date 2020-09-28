@@ -1,11 +1,9 @@
-ARG BUILD_FROM=hassioaddons/base:8.0.3
+ARG BUILD_FROM=hassioaddons/base-python:8.0.3
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-WORKDIR /opt
 
 
 RUN apk add --no-cache \
@@ -19,9 +17,12 @@ RUN apk add --no-cache \
         \
         && apk del --no-cache
     
+
+RUN mkdir -p /opt/web 
 RUN git clone \
-      https://github.com/mvheimburg/access_control_node.git /opt \
+    https://github.com/mvheimburg/access_control_node.git /opt/web \
     \
+    && cd /opt/web \
     && npm install \
       --no-optional \
       --only=production \
@@ -30,15 +31,17 @@ RUN git clone \
     \
     && rm -fr \
         /tmp/* \
-        /opt/.git \
+        /opt/web/.git \
         /etc/nginx
     
-
+# RUN mkdir -p /opt/backend \
+#     && cd opt/backend
 
 
 
 
 # Copy root filesystem
+WORKDIR /opt
 COPY rootfs /
 
 
