@@ -1,4 +1,4 @@
-ARG BUILD_FROM=hassioaddons/base-python:8.0.3
+ARG BUILD_FROM=hassioaddons/ubuntu-base:5.2.1
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -6,17 +6,63 @@ FROM ${BUILD_FROM}
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 
-RUN apk add --no-cache \
+RUN \
+    apt-get update \
+    \
+    && apt-get install -y --no-install-recommends \
         git \
-        lua-resty-http \
-        nginx-mod-http-lua \
-        nginx \
-        nodejs \
+        openssl \
+        libnginx-mod-http-lua \
+        luarocks \
         npm \
-        yarn \
-        \
-        && apk del --no-cache
-    
+        nginx \
+    \
+    && luarocks install lua-resty-http 0.15-0 
+    # \
+    # && apt-get purge -y --auto-remove \
+    #     dirmngr \
+    #     gpg-agent \
+    #     gpg \
+    #     git \
+    #     libffi-dev \
+    #     libxml2-dev \
+    #     libxslt1-dev \
+    #     zlib1g-dev \
+    #     build-essential \
+    #     gcc \
+    #     python-dev \
+    #     dpkg-dev \
+    #     gcc-7 \
+    #     luarocks \
+    # && rm -fr \
+    #     /var/{cache,log}/* \
+    #     /var/lib/apt/lists/* \
+    #     /root/.cache \
+    # && find /tmp/ -mindepth 1  -delete
+
+
+# RUN \
+#     apk add --no-cache --virtual .build-dependencies \
+#         g++\
+#         # gcc=9.3.0-r2 \
+#         # libc-dev=0.7.2-r3 \
+#         linux-headers \
+#         build-base \
+#         py3-pip \
+#         python3-dev \
+#     \
+#     && apk add --no-cache \
+#         git \
+#         lua-resty-http \
+#         nginx-mod-http-lua \
+#         nginx  \
+#         nodejs \
+#         npm \
+#         openssh-client \
+#         # patch=2.7.6-r6 \
+#         python3 \
+#     \
+#      && apk del --no-cache
 
 RUN mkdir -p /opt/web 
 RUN git clone \
@@ -33,9 +79,37 @@ RUN git clone \
         /tmp/* \
         /opt/web/.git \
         /etc/nginx
-    
-# RUN mkdir -p /opt/backend \
-#     && cd opt/backend
+
+
+RUN \
+    apt-get update \
+    \
+    && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3 \
+    python3-dev 
+    # python3-pip
+
+RUN curl https://bootstrap.pypa.io/get-pip.py | python3 
+
+RUN mkdir -p /opt/server
+RUN git clone \
+    https://github.com/mvheimburg/access_control_server.git /opt/server
+    # \
+    # && cd /opt/server \
+    # \
+    # && python --version \
+
+# RUN pip3 install -U \
+#     pip
+
+RUN pip3 install --no-cache-dir \
+    # # # && pip install --no-cache-dir -r requirements.txt \  
+    paho-mqtt \
+    PyYAML \
+    # six
+    grpcio \
+    grpcio_tools
 
 
 
