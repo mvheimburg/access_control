@@ -2,20 +2,20 @@ ARG BUILD_FROM=hassioaddons/ubuntu-base:5.2.1
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
+
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-
-RUN \
-    apt-get update \
+RUN apt update \
     \
-    && apt-get install -y --no-install-recommends \
+    && apt install -y --no-install-recommends \
         git \
         openssl \
         libnginx-mod-http-lua \
         luarocks \
         npm \
         nginx \
+
     \
     && luarocks install lua-resty-http 0.15-0 
     # \
@@ -82,14 +82,15 @@ RUN git clone \
 
 
 RUN \
-    apt-get update \
+    apt update \
     \
-    && apt-get install -y --no-install-recommends \
+    && apt install -y --no-install-recommends \
     build-essential \
     python3 \
     python3-dev 
     # python3-pip
 
+RUN ls
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3 
 
 RUN mkdir -p /opt/server
@@ -109,7 +110,8 @@ RUN pip3 install --no-cache-dir \
     PyYAML \
     # six
     grpcio \
-    grpcio_tools
+    grpcio_tools \
+    yq
 
 
 
