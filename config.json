@@ -16,19 +16,24 @@
   "homeassistant_api": true,
   "ingress": true,
   "ingress_port": 1337,
-  "grpc_port": 5055,
   "options": {
     "log_level": "info",
     "ssl": false,
     "certfile": "fullchain.pem",
     "keyfile": "privkey.pem",
-    "access_control_mqtt": 
-      {
-        "server": "localhost:1883",
-        "username": "user",
-        "password": "pass",
-        "client_id": "client"
-      }
+    "mqtt": 
+    {
+      "host": "localhost",
+      "username": "user",
+      "password": "pass",
+      "client_id": "client",
+      "port": 1883
+    },
+    "grpc":
+    {
+      "port" : 5055
+    }
+  
   },
   "schema": {
     "log_level": "list(trace|debug|info|notice|warning|error|fatal)",
@@ -37,13 +42,18 @@
     "keyfile": "str",
     "i_like_to_be_pwned": "bool?",
     "leave_front_door_open": "bool?",
-    "access_control_mqtt": 
-      {
-        "server": "str",
-        "username": "str",
-        "password": "str",
-        "client_id": "str"
-      }
+    "mqtt":
+    {
+      "host": "str",
+      "username": "str",
+      "password": "str",
+      "client_id": "str",
+      "port": "port"
+    },
+    "grpc":
+    {
+      "port" : "port"
+    }
   },
   "ports": {
     "80/tcp": null

@@ -90,7 +90,8 @@ RUN \
     python3-dev 
     # python3-pip
 
-RUN ls
+# RUN ls
+# RUN ls
 RUN curl https://bootstrap.pypa.io/get-pip.py | python3 
 
 RUN mkdir -p /opt/server
