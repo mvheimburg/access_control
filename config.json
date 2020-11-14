@@ -4,7 +4,7 @@
   "slug": "access_control",
   "description": "Access control add-on",
   "url": "https://github.com/hassio-addons/addon-example",
-  "webui": "http://[HOST]:[PORT:8100]",
+  "webui": "http://[HOST]:[PORT:80]",
   "startup": "services",
   "panel_icon": "mdi:code-brackets",
   "panel_title": "Access Control",

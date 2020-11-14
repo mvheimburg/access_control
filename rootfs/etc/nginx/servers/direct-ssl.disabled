@@ -9,4 +9,9 @@ server {
     ssl_certificate_key /ssl/%%keyfile%%;
 
     access_by_lua_file /etc/nginx/lua/ha-auth.lua;
+
+    location /resources {
+        proxy_pass 127.0.0.1;
+    }
+
 }

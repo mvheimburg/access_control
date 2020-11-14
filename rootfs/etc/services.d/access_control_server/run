@@ -5,4 +5,4 @@
 # ==============================================================================
 bashio::log.info "Starting Access Control server."
 cd /opt/server/app || bashio::exit "Could not change dir."
-exec python3 main.py
+exec gunicorn --bind 0.0.0.0:5000 wsgi:app
